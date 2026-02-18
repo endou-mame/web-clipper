@@ -1,5 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
+import { cors } from "hono/cors";
 import { bearerAuth } from "hono/bearer-auth";
 import { drizzle } from "drizzle-orm/d1";
 import type { AppEnv } from "./presentation/types.js";
@@ -10,6 +11,16 @@ import { articleRoutes } from "./presentation/routes/articles.js";
 import { tagRoutes } from "./presentation/routes/tags.js";
 
 const base = new OpenAPIHono<AppEnv>();
+
+// --- CORS ---
+base.use(
+  "/api/*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 // --- DI middleware ---
 base.use("/api/*", async (c, next) => {

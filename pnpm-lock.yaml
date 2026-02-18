@@ -103,6 +103,9 @@ importers:
       vue-tsc:
         specifier: ^3.2.4
         version: 3.2.4(typescript@5.9.3)
+      wrangler:
+        specifier: ^4.66.0
+        version: 4.66.0(@cloudflare/workers-types@4.20260218.0)
 
   packages/shared:
     dependencies:

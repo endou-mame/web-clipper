@@ -8,7 +8,8 @@
     {
       "binding": "DB",
       "database_name": "web-clipper-db",
-      "database_id": "<DATABASE_ID>"
+      "database_id": "96f37eb1-5580-4214-a619-591f4aa2510d",
+      "migrations_dir": "drizzle"
     }
   ]
 }
