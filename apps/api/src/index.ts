@@ -9,10 +9,10 @@ import { healthRoutes } from "./presentation/routes/health.js";
 import { articleRoutes } from "./presentation/routes/articles.js";
 import { tagRoutes } from "./presentation/routes/tags.js";
 
-const app = new OpenAPIHono<AppEnv>();
+const base = new OpenAPIHono<AppEnv>();
 
 // --- DI middleware ---
-app.use("/api/*", async (c, next) => {
+base.use("/api/*", async (c, next) => {
   const db = drizzle(c.env.DB);
   c.set("deps", {
     articleRepo: createD1ArticleRepository(db),
@@ -23,19 +23,17 @@ app.use("/api/*", async (c, next) => {
 });
 
 // --- Auth middleware (skip health and docs) ---
-app.use("/api/articles/*", async (c, next) => {
+base.use("/api/articles/*", async (c, next) => {
   const auth = bearerAuth({ token: c.env.API_TOKEN });
   return auth(c, next);
 });
-app.use("/api/tags/*", async (c, next) => {
+base.use("/api/tags/*", async (c, next) => {
   const auth = bearerAuth({ token: c.env.API_TOKEN });
   return auth(c, next);
 });
 
-// --- Mount routes ---
-app.route("/", healthRoutes);
-app.route("/", articleRoutes);
-app.route("/", tagRoutes);
+// --- Mount routes (chained for Hono RPC type inference) ---
+const app = base.route("/", healthRoutes).route("/", articleRoutes).route("/", tagRoutes);
 
 // --- OpenAPI spec endpoint ---
 app.doc("/api/doc", {

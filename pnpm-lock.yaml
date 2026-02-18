@@ -63,6 +63,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@web-clipper/api':
+        specifier: workspace:*
+        version: link:../api
       '@web-clipper/shared':
         specifier: workspace:*
         version: link:../../packages/shared
