@@ -1,0 +1,69 @@
+import type { ArticleId } from "../values/article-id.js";
+import type { ArticleUrl } from "../values/article-url.js";
+import type { Source } from "../values/source.js";
+import type { TagName } from "../values/tag-name.js";
+
+export type Article = {
+  readonly id: ArticleId;
+  readonly url: ArticleUrl;
+  readonly title: string;
+  readonly description: string | null;
+  readonly source: Source;
+  readonly ogImageUrl: string | null;
+  readonly memo: string | null;
+  readonly isRead: boolean;
+  readonly tags: readonly TagName[];
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+};
+
+type CreateParams = {
+  readonly id: ArticleId;
+  readonly url: ArticleUrl;
+  readonly title: string;
+  readonly description: string | null;
+  readonly source: Source;
+  readonly ogImageUrl: string | null;
+  readonly memo: string | null;
+  readonly isRead: boolean;
+  readonly tags: readonly TagName[];
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+};
+
+const create = (params: CreateParams): Article => ({
+  ...params,
+  tags: [...params.tags],
+});
+
+const markAsRead = (article: Article): Article => ({
+  ...article,
+  isRead: true,
+  updatedAt: new Date(),
+});
+
+const markAsUnread = (article: Article): Article => ({
+  ...article,
+  isRead: false,
+  updatedAt: new Date(),
+});
+
+const updateMemo = (article: Article, memo: string | null): Article => ({
+  ...article,
+  memo,
+  updatedAt: new Date(),
+});
+
+const updateTags = (article: Article, tags: readonly TagName[]): Article => ({
+  ...article,
+  tags: [...tags],
+  updatedAt: new Date(),
+});
+
+export const ArticleEntity = {
+  create,
+  markAsRead,
+  markAsUnread,
+  updateMemo,
+  updateTags,
+} as const;

@@ -1,0 +1,24 @@
+{
+  "name": "web-clipper",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:api": "pnpm --filter @web-clipper/api dev",
+    "dev:web": "pnpm --filter @web-clipper/web dev",
+    "build": "pnpm -r build",
+    "build:api": "pnpm --filter @web-clipper/api build",
+    "build:web": "pnpm --filter @web-clipper/web build",
+    "test": "pnpm -r test",
+    "test:api": "pnpm --filter @web-clipper/api test",
+    "test:web": "pnpm --filter @web-clipper/web test",
+    "typecheck": "pnpm -r typecheck",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix ."
+  },
+  "devDependencies": {
+    "oxfmt": "^0.33.0",
+    "oxlint": "^1.48.0"
+  }
+}

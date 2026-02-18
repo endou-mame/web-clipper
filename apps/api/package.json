@@ -1,0 +1,33 @@
+{
+  "name": "@web-clipper/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run --outdir=dist",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^1.2.2",
+    "@scalar/hono-api-reference": "^0.9.41",
+    "@web-clipper/shared": "workspace:*",
+    "drizzle-orm": "^0.45.1",
+    "hono": "^4.11.10",
+    "nanoid": "^5.1.6",
+    "neverthrow": "^8.2.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.12.13",
+    "@cloudflare/workers-types": "^4.20260218.0",
+    "drizzle-kit": "^0.31.9",
+    "typescript": "^5.9.3",
+    "vitest": "~3.2.4",
+    "wrangler": "^4.66.0"
+  }
+}
