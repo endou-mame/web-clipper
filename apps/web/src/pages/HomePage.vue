@@ -49,11 +49,11 @@ const sourceFilters = [
 ] as const;
 
 const sourceBadgeStyles: Record<string, string> = {
-  twitter: "bg-blue-100 text-blue-800",
-  qiita: "bg-green-100 text-green-800",
-  zenn: "bg-sky-100 text-sky-800",
-  hatena: "bg-red-100 text-red-800",
-  other: "bg-gray-100 text-gray-800",
+  twitter: "bg-info/15 text-info",
+  qiita: "bg-success/15 text-success",
+  zenn: "bg-purple/15 text-purple",
+  hatena: "bg-error/15 text-error",
+  other: "bg-muted/15 text-muted",
 };
 
 const sourceLabels: Record<string, string> = {
@@ -161,30 +161,33 @@ onMounted(() => {
 
 <template>
   <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900">記事一覧</h2>
-
-    <!-- 検索バー -->
-    <div>
+    <!-- Search Bar -->
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <svg class="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
       <input
         v-model="searchQuery"
         type="text"
         placeholder="記事を検索..."
-        class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        class="input-base w-full py-3 px-5 pl-12 text-base font-body focus:ring-2 focus:ring-accent/40 focus:border-accent transition-all duration-200"
       />
     </div>
 
-    <!-- フィルタ -->
+    <!-- Filters -->
     <div class="flex flex-wrap items-center gap-4">
-      <!-- ソースフィルタ -->
+      <!-- Source filter pills -->
       <div class="flex flex-wrap gap-2">
         <button
           v-for="f in sourceFilters"
           :key="f.value"
-          class="px-3 py-1.5 text-sm rounded-full border transition-colors"
+          class="px-4 py-2 text-sm rounded-full border transition-all duration-200 font-body"
           :class="
             selectedSource === f.value
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              ? 'bg-accent text-surface-0 border-accent shadow-sm shadow-accent/20'
+              : 'bg-surface-2 text-muted border-border hover:text-foreground hover:border-muted'
           "
           @click="selectedSource = f.value"
         >
@@ -192,10 +195,10 @@ onMounted(() => {
         </button>
       </div>
 
-      <!-- タグフィルタ -->
+      <!-- Tag dropdown -->
       <select
         v-model="selectedTagId"
-        class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="input-base bg-surface-2 px-4 py-2 text-sm font-body rounded-lg"
       >
         <option value="">全てのタグ</option>
         <option v-for="tag in tags" :key="tag.id" :value="tag.id">
@@ -204,82 +207,100 @@ onMounted(() => {
       </select>
     </div>
 
-    <!-- ローディング（初回） -->
-    <div v-if="isLoading" class="flex justify-center py-12">
-      <div class="text-gray-500 text-sm">読み込み中...</div>
+    <!-- Loading skeleton -->
+    <div v-if="isLoading" class="space-y-4">
+      <div v-for="n in 3" :key="n" class="card-base p-5 space-y-3">
+        <div class="skeleton h-5 w-3/4 rounded" />
+        <div class="skeleton h-3 w-1/3 rounded" />
+        <div class="flex gap-2 mt-3">
+          <div class="skeleton h-5 w-16 rounded-full" />
+          <div class="skeleton h-5 w-12 rounded-full" />
+          <div class="skeleton h-5 w-20 rounded-full ml-auto" />
+        </div>
+      </div>
     </div>
 
-    <!-- 空状態 -->
-    <div v-else-if="isEmpty" class="text-center py-12">
-      <p class="text-gray-500 text-sm">記事が見つかりませんでした。</p>
+    <!-- Empty state -->
+    <div v-else-if="isEmpty" class="text-center py-16">
+      <svg class="w-12 h-12 mx-auto text-muted/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9zm3.75 11.625a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+      </svg>
+      <p class="text-muted font-body text-sm">記事が見つかりませんでした</p>
+      <p class="text-muted/50 font-body text-xs mt-1">検索条件を変更してお試しください</p>
     </div>
 
-    <!-- 記事カード一覧 -->
-    <div v-else class="space-y-4">
+    <!-- Article cards -->
+    <div v-else class="space-y-3">
       <div
         v-for="article in articles"
         :key="article.id"
-        class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow"
+        class="card-hover p-5 border-l-2 border-l-transparent hover:border-l-accent transition-all duration-200"
       >
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0 flex-1">
-            <!-- タイトル -->
+            <!-- Title -->
             <RouterLink
               :to="`/articles/${article.id}`"
-              class="text-base font-semibold text-gray-900 no-underline hover:text-blue-600 line-clamp-2"
+              class="text-foreground font-semibold text-base font-body no-underline hover:text-accent transition-colors duration-200 line-clamp-2"
             >
               {{ article.title }}
             </RouterLink>
 
-            <!-- URL -->
+            <!-- Domain URL -->
             <a
               :href="article.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="mt-1 text-xs text-gray-500 no-underline hover:text-blue-500 block truncate"
+              class="mt-1 text-xs text-muted no-underline hover:text-info block truncate transition-colors duration-200"
             >
               {{ extractDomain(article.url) }}
             </a>
           </div>
 
-          <!-- 既読/未読アイコン -->
-          <span class="flex-shrink-0 mt-1" :title="article.isRead ? '既読' : '未読'">
-            <span v-if="article.isRead" class="inline-block w-3 h-3 rounded-full bg-gray-300" />
-            <span v-else class="inline-block w-3 h-3 rounded-full bg-blue-500" />
+          <!-- Read/unread indicator -->
+          <span class="flex-shrink-0 mt-1.5" :title="article.isRead ? '既読' : '未読'">
+            <span
+              v-if="article.isRead"
+              class="inline-block w-2.5 h-2.5 rounded-full bg-muted/30"
+            />
+            <span
+              v-else
+              class="inline-block w-2.5 h-2.5 rounded-full bg-accent shadow-sm shadow-accent/50"
+            />
           </span>
         </div>
 
-        <!-- メタ情報 -->
+        <!-- Meta -->
         <div class="mt-3 flex flex-wrap items-center gap-2">
-          <!-- ソースバッジ -->
+          <!-- Source badge -->
           <span
-            class="inline-block px-2 py-0.5 text-xs font-medium rounded-full"
+            class="badge-base px-2 py-0.5 text-xs font-medium rounded-full"
             :class="sourceBadgeStyles[article.source]"
           >
             {{ sourceLabels[article.source] }}
           </span>
 
-          <!-- タグ -->
+          <!-- Tags -->
           <span
             v-for="tag in article.tags"
             :key="tag"
-            class="inline-block px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full"
+            class="bg-surface-2 text-muted text-xs rounded-full px-2.5 py-0.5"
           >
             {{ tag }}
           </span>
 
-          <!-- 作成日時 -->
-          <span class="text-xs text-gray-400 ml-auto">
+          <!-- Date -->
+          <span class="text-muted/70 text-xs ml-auto font-body">
             {{ formatDate(article.createdAt) }}
           </span>
         </div>
       </div>
     </div>
 
-    <!-- もっと読み込む -->
+    <!-- Load more -->
     <div v-if="nextCursor && !isLoading" class="flex justify-center pt-2 pb-4">
       <button
-        class="px-6 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50"
+        class="btn-ghost px-6 py-2 text-sm font-medium font-body rounded-lg border border-accent/40 text-accent hover:bg-accent/10 hover:border-accent transition-all duration-200 disabled:opacity-50"
         :disabled="isLoadingMore"
         @click="loadMore"
       >

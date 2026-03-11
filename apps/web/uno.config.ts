@@ -2,4 +2,43 @@ import { defineConfig, presetUno, presetIcons } from "unocss";
 
 export default defineConfig({
   presets: [presetUno(), presetIcons()],
+  theme: {
+    colors: {
+      surface: {
+        0: "#262427",
+        1: "#2d2b30",
+        2: "#353339",
+        3: "#3e3c42",
+      },
+      border: "#454349",
+      muted: "#908e96",
+      foreground: "#fcfcfa",
+      accent: "#ffca58",
+      error: "#ff7272",
+      success: "#bcdf59",
+      info: "#49cae4",
+      purple: "#a093e2",
+      cyan: "#aee8f4",
+    },
+    fontFamily: {
+      display: "'Outfit', sans-serif",
+      body: "'DM Sans', sans-serif",
+    },
+  },
+  shortcuts: {
+    "btn-primary":
+      "px-5 py-2.5 bg-accent text-surface-0 font-semibold rounded-lg text-sm transition-all duration-200 hover:shadow-[0_0_20px_rgba(255,202,88,0.3)] active:scale-97 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none font-body",
+    "btn-ghost":
+      "px-4 py-2 text-sm text-muted border border-border rounded-lg transition-all duration-200 hover:text-foreground hover:border-muted hover:bg-surface-2 font-body",
+    "input-base":
+      "w-full rounded-lg border border-border bg-surface-1 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/60 focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-all duration-200 font-body",
+    "card-base":
+      "rounded-xl border border-border bg-surface-1 transition-all duration-300",
+    "card-hover":
+      "rounded-xl border border-border bg-surface-1 transition-all duration-300 hover:border-accent/30 hover:shadow-[0_0_30px_rgba(255,202,88,0.06)]",
+    "badge-base":
+      "inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full font-body",
+    "section-title":
+      "text-sm font-medium text-muted uppercase tracking-wider font-body",
+  },
 });

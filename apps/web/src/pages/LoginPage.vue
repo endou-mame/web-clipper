@@ -33,15 +33,27 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-    <div class="w-full max-w-sm">
-      <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-8">
-        <h1 class="text-2xl font-bold text-gray-900 text-center mb-6">Web Clipper</h1>
+  <div class="min-h-screen bg-surface-0 flex items-center justify-center px-4 relative overflow-hidden">
+    <!-- Decorative background orb -->
+    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
+
+    <div class="w-full max-w-sm relative z-10">
+      <!-- Gradient top border -->
+      <div class="h-1 rounded-t-xl bg-gradient-to-r from-accent via-purple to-info" />
+
+      <!-- Card -->
+      <div class="card-base rounded-t-none p-8">
+        <!-- Logo -->
+        <h1 class="text-2xl font-bold text-center mb-2 font-display">
+          <span class="text-foreground">Web</span>
+          <span class="text-accent">Clipper</span>
+        </h1>
+        <p class="text-muted text-sm text-center mb-6 font-body">アカウントにログイン</p>
 
         <!-- Error message -->
         <div
           v-if="errorMessage"
-          class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          class="mb-4 rounded-lg bg-error/10 border border-error/20 px-4 py-3 text-sm text-error"
         >
           {{ errorMessage }}
         </div>
@@ -49,7 +61,7 @@ async function handleSubmit() {
         <form class="space-y-5" @submit.prevent="handleSubmit">
           <!-- Username -->
           <div>
-            <label for="username" class="mb-1 block text-sm font-medium text-gray-700">
+            <label for="username" class="mb-1 block text-sm font-medium text-muted font-body">
               ユーザー名
             </label>
             <input
@@ -59,13 +71,13 @@ async function handleSubmit() {
               required
               autocomplete="username"
               placeholder="ユーザー名を入力"
-              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              class="input-base w-full"
             />
           </div>
 
           <!-- Password -->
           <div>
-            <label for="password" class="mb-1 block text-sm font-medium text-gray-700">
+            <label for="password" class="mb-1 block text-sm font-medium text-muted font-body">
               パスワード
             </label>
             <input
@@ -75,7 +87,7 @@ async function handleSubmit() {
               required
               autocomplete="current-password"
               placeholder="パスワードを入力"
-              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              class="input-base w-full"
             />
           </div>
 
@@ -83,10 +95,10 @@ async function handleSubmit() {
           <button
             type="submit"
             :disabled="!username || !password || isSubmitting"
-            class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            class="btn-primary w-full"
           >
             <span v-if="isSubmitting" class="inline-flex items-center gap-2">
-              <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+              <svg class="h-4 w-4 animate-spin text-surface-0" viewBox="0 0 24 24" fill="none">
                 <circle
                   class="opacity-25"
                   cx="12"
@@ -108,15 +120,15 @@ async function handleSubmit() {
         </form>
 
         <!-- GitHub OAuth (future) -->
-        <div class="mt-6 border-t border-gray-200 pt-6">
+        <div class="mt-6 border-t border-border pt-6">
           <button
             type="button"
             disabled
-            class="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+            class="btn-ghost w-full"
           >
             GitHubでログイン
           </button>
-          <p class="mt-2 text-center text-xs text-gray-400">準備中</p>
+          <p class="mt-2 text-center text-xs text-muted/60">準備中</p>
         </div>
       </div>
     </div>

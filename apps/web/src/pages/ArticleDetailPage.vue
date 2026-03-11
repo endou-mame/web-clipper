@@ -44,11 +44,11 @@ const togglingRead = ref(false);
 const deleting = ref(false);
 
 const sourceColors: Record<Article["source"], string> = {
-  twitter: "bg-sky-500 text-white",
-  qiita: "bg-green-500 text-white",
-  zenn: "bg-blue-600 text-white",
-  hatena: "bg-red-500 text-white",
-  other: "bg-gray-500 text-white",
+  twitter: "bg-info/20 text-info",
+  qiita: "bg-success/20 text-success",
+  zenn: "bg-purple/20 text-purple",
+  hatena: "bg-error/20 text-error",
+  other: "bg-muted/20 text-muted",
 };
 
 function formatDate(dateStr: string): string {
@@ -203,19 +203,32 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mx-auto max-w-3xl px-4 py-8">
+  <div class="max-w-3xl mx-auto">
     <!-- ローディング -->
-    <div v-if="loading" class="flex items-center justify-center py-20">
-      <div class="text-lg text-gray-500">読み込み中...</div>
+    <div v-if="loading" class="space-y-5 py-8">
+      <div class="skeleton h-5 w-24" />
+      <div class="card-base overflow-hidden">
+        <div class="skeleton h-52 rounded-none" />
+        <div class="p-6 space-y-4">
+          <div class="flex gap-2">
+            <div class="skeleton h-6 w-20 rounded-full" />
+            <div class="skeleton h-6 w-16 rounded-full" />
+          </div>
+          <div class="skeleton h-8 w-3/4" />
+          <div class="skeleton h-4 w-1/2" />
+          <div class="skeleton h-16 w-full" />
+        </div>
+      </div>
+      <div class="card-base p-5">
+        <div class="skeleton h-4 w-20 mb-3" />
+        <div class="skeleton h-10 w-full" />
+      </div>
     </div>
 
     <!-- エラー -->
     <div v-else-if="error" class="py-20 text-center">
-      <div class="text-lg text-red-500">{{ error }}</div>
-      <button
-        class="mt-4 rounded bg-gray-200 px-4 py-2 text-sm hover:bg-gray-300"
-        @click="router.push('/')"
-      >
+      <div class="text-error text-base font-body mb-4">{{ error }}</div>
+      <button class="btn-ghost" @click="router.push('/')">
         一覧に戻る
       </button>
     </div>
@@ -223,33 +236,42 @@ onMounted(() => {
     <!-- 記事詳細 -->
     <div v-else-if="article">
       <!-- 戻るリンク -->
-      <button class="mb-4 text-sm text-gray-500 hover:text-gray-700" @click="router.push('/')">
-        &larr; 一覧に戻る
+      <button
+        class="mb-6 text-sm text-muted hover:text-foreground transition-colors duration-200 font-body inline-flex items-center gap-1.5"
+        @click="router.push('/')"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5" />
+          <path d="M12 19l-7-7 7-7" />
+        </svg>
+        一覧に戻る
       </button>
 
       <!-- メインカード -->
-      <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div class="card-base overflow-hidden">
         <!-- OG画像 -->
         <img
           v-if="article.ogImageUrl"
           :src="article.ogImageUrl"
           :alt="article.title"
-          class="h-auto w-full rounded-t-lg object-cover"
+          class="h-auto w-full max-h-72 object-cover"
         />
 
         <div class="p-6">
           <!-- ソースバッジ + 既読状態 -->
-          <div class="mb-3 flex items-center gap-2">
+          <div class="flex items-center gap-2 mb-4">
             <span
-              class="rounded-full px-2.5 py-0.5 text-xs font-semibold"
+              class="badge-base rounded-full"
               :class="sourceColors[article.source]"
             >
               {{ article.source }}
             </span>
             <span
-              class="rounded-full px-2.5 py-0.5 text-xs font-semibold"
+              class="badge-base rounded-full"
               :class="
-                article.isRead ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                article.isRead
+                  ? 'bg-success/15 text-success'
+                  : 'bg-accent/15 text-accent'
               "
             >
               {{ article.isRead ? "既読" : "未読" }}
@@ -257,26 +279,32 @@ onMounted(() => {
           </div>
 
           <!-- タイトル -->
-          <h1 class="mb-2 text-2xl font-bold text-gray-900">{{ article.title }}</h1>
+          <h1 class="font-display text-2xl font-bold text-foreground leading-tight">
+            {{ article.title }}
+          </h1>
 
           <!-- 外部リンク -->
           <a
             :href="article.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="mb-4 inline-flex items-center gap-1 text-sm text-blue-600 break-all hover:underline"
+            class="mt-3 inline-flex items-center gap-1.5 text-sm text-info break-all hover:underline font-body"
           >
             {{ article.url }}
-            <span class="text-xs">&#x2197;</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
           </a>
 
           <!-- 説明文 -->
-          <p v-if="article.description" class="mt-4 text-sm leading-relaxed text-gray-600">
+          <p v-if="article.description" class="mt-5 text-sm leading-relaxed text-foreground/70 font-body">
             {{ article.description }}
           </p>
 
           <!-- 日時 -->
-          <div class="mt-4 flex gap-4 text-xs text-gray-400">
+          <div class="mt-5 pt-4 border-t border-border/50 flex gap-6 text-xs text-muted/60 font-body">
             <span>作成: {{ formatDate(article.createdAt) }}</span>
             <span>更新: {{ formatDate(article.updatedAt) }}</span>
           </div>
@@ -284,16 +312,16 @@ onMounted(() => {
       </div>
 
       <!-- 既読/未読トグル -->
-      <div class="mt-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="card-base p-5 mt-5">
         <div class="flex items-center justify-between">
-          <span class="text-sm font-medium text-gray-700">閲覧状態</span>
+          <span class="section-title">閲覧状態</span>
           <button
             :disabled="togglingRead"
-            class="rounded-lg px-4 py-2 text-sm font-medium transition-colors"
+            class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 font-body disabled:opacity-50"
             :class="
               article.isRead
-                ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                : 'bg-green-100 text-green-700 hover:bg-green-200'
+                ? 'bg-accent/10 text-accent border border-accent/20 hover:bg-accent/20'
+                : 'bg-success/10 text-success border border-success/20 hover:bg-success/20'
             "
             @click="toggleRead"
           >
@@ -303,12 +331,12 @@ onMounted(() => {
       </div>
 
       <!-- メモ -->
-      <div class="mt-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-        <div class="mb-2 flex items-center justify-between">
-          <span class="text-sm font-medium text-gray-700">メモ</span>
+      <div class="card-base p-5 mt-5">
+        <div class="mb-3 flex items-center justify-between">
+          <span class="section-title">メモ</span>
           <button
             v-if="!isEditingMemo"
-            class="text-sm text-blue-600 hover:underline"
+            class="text-sm text-accent hover:underline font-body"
             @click="startEditMemo"
           >
             編集
@@ -317,10 +345,10 @@ onMounted(() => {
 
         <!-- 表示モード -->
         <div v-if="!isEditingMemo">
-          <p v-if="article.memo" class="whitespace-pre-wrap text-sm text-gray-600">
+          <p v-if="article.memo" class="whitespace-pre-wrap text-sm text-foreground/80 font-body leading-relaxed">
             {{ article.memo }}
           </p>
-          <p v-else class="text-sm text-gray-400">メモはありません</p>
+          <p v-else class="text-sm text-muted/50 font-body">メモはありません</p>
         </div>
 
         <!-- 編集モード -->
@@ -328,20 +356,20 @@ onMounted(() => {
           <textarea
             v-model="editMemo"
             rows="4"
-            class="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:outline-none"
+            class="input-base resize-none"
             placeholder="メモを入力..."
           />
-          <div class="mt-2 flex gap-2">
+          <div class="mt-3 flex gap-2">
             <button
               :disabled="savingMemo"
-              class="rounded bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
+              class="btn-primary text-sm px-4 py-2"
               @click="saveMemo"
             >
               {{ savingMemo ? "保存中..." : "保存" }}
             </button>
             <button
               :disabled="savingMemo"
-              class="rounded bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-300"
+              class="btn-ghost text-sm"
               @click="cancelEditMemo"
             >
               キャンセル
@@ -351,26 +379,26 @@ onMounted(() => {
       </div>
 
       <!-- タグ管理 -->
-      <div class="mt-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-        <span class="mb-2 block text-sm font-medium text-gray-700">タグ</span>
+      <div class="card-base p-5 mt-5">
+        <span class="section-title mb-3 block">タグ</span>
 
         <!-- 現在のタグ -->
-        <div class="mb-3 flex flex-wrap gap-2">
+        <div class="mb-4 flex flex-wrap gap-2">
           <span
             v-for="tag in article.tags"
             :key="tag"
-            class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-700"
+            class="inline-flex items-center gap-1.5 rounded-full bg-purple/15 px-3 py-1 text-sm text-purple font-body"
           >
             {{ tag }}
             <button
               :disabled="savingTags"
-              class="ml-0.5 text-blue-400 hover:text-blue-600"
+              class="text-purple/50 hover:text-purple transition-colors"
               @click="removeTag(tag)"
             >
               &times;
             </button>
           </span>
-          <span v-if="article.tags.length === 0" class="text-sm text-gray-400">
+          <span v-if="article.tags.length === 0" class="text-sm text-muted/50 font-body">
             タグはありません
           </span>
         </div>
@@ -381,7 +409,7 @@ onMounted(() => {
             v-model="newTag"
             type="text"
             list="tag-suggestions"
-            class="flex-1 rounded border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+            class="input-base flex-1"
             placeholder="新しいタグを追加..."
             @keydown.enter="addTag"
           />
@@ -390,7 +418,7 @@ onMounted(() => {
           </datalist>
           <button
             :disabled="savingTags || !newTag.trim()"
-            class="rounded bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
+            class="btn-primary text-sm px-4 py-2"
             @click="addTag"
           >
             追加
@@ -399,15 +427,15 @@ onMounted(() => {
       </div>
 
       <!-- 削除 -->
-      <div class="mt-6 rounded-lg border border-red-200 bg-white p-4 shadow-sm">
+      <div class="card-base border-error/20 p-5 mt-5">
         <div class="flex items-center justify-between">
           <div>
-            <span class="text-sm font-medium text-red-700">記事を削除</span>
-            <p class="text-xs text-gray-500">この操作は取り消せません。</p>
+            <span class="text-sm font-medium text-error font-body">記事を削除</span>
+            <p class="text-xs text-muted/60 font-body mt-0.5">この操作は取り消せません。</p>
           </div>
           <button
             :disabled="deleting"
-            class="rounded bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700 disabled:opacity-50"
+            class="bg-error/10 text-error border border-error/20 hover:bg-error/20 px-4 py-2 text-sm rounded-lg font-medium transition-all duration-200 font-body disabled:opacity-50"
             @click="deleteArticle"
           >
             {{ deleting ? "削除中..." : "削除" }}

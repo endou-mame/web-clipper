@@ -11,30 +11,41 @@ async function handleLogout() {
 
 <template>
   <!-- Loading state -->
-  <div v-if="auth.isLoading.value" class="min-h-screen bg-gray-50 flex items-center justify-center">
-    <div class="text-gray-500 text-sm">読み込み中...</div>
+  <div v-if="auth.isLoading.value" class="min-h-screen bg-surface-0 flex items-center justify-center">
+    <div class="flex flex-col items-center gap-3">
+      <div class="h-2.5 w-2.5 rounded-full bg-accent animate-pulse" />
+      <span class="text-muted text-sm font-body">読み込み中...</span>
+    </div>
   </div>
 
   <!-- App -->
-  <div v-else class="min-h-screen bg-gray-50">
-    <header v-if="auth.isAuthenticated.value" class="bg-white border-b border-gray-200">
-      <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-        <RouterLink to="/" class="text-xl font-bold text-gray-900 no-underline">
-          Web Clipper
+  <div v-else class="min-h-screen bg-surface-0 font-body text-foreground">
+    <header
+      v-if="auth.isAuthenticated.value"
+      class="sticky top-0 z-50 bg-surface-0/80 backdrop-blur-xl border-b border-border/60"
+    >
+      <!-- Decorative golden top bar -->
+      <div class="h-0.5 w-full bg-gradient-to-r from-accent/0 via-accent to-accent/0" />
+
+      <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <RouterLink to="/" class="font-display font-bold text-xl no-underline">
+          <span class="text-foreground">Web </span><span class="text-accent">Clipper</span>
         </RouterLink>
+
         <div class="flex items-center gap-4">
           <RouterLink
             to="/articles/add"
-            class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium no-underline hover:bg-blue-700"
+            class="btn-primary no-underline"
           >
             記事を追加
           </RouterLink>
+
           <div class="flex items-center gap-3">
-            <span class="text-sm text-gray-600">
+            <span class="text-muted text-sm font-body">
               {{ auth.currentUser.value?.username }}
             </span>
             <button
-              class="px-3 py-1.5 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50"
+              class="btn-ghost"
               @click="handleLogout"
             >
               ログアウト
@@ -43,8 +54,28 @@ async function handleLogout() {
         </div>
       </div>
     </header>
-    <main :class="auth.isAuthenticated.value ? 'max-w-4xl mx-auto px-4 py-6' : ''">
-      <RouterView />
+
+    <main :class="auth.isAuthenticated.value ? 'max-w-5xl mx-auto px-6 py-8' : ''">
+      <Transition name="page" mode="out-in">
+        <RouterView />
+      </Transition>
     </main>
   </div>
 </template>
+
+<style scoped>
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+</style>
