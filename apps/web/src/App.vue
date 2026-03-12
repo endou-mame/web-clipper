@@ -27,25 +27,25 @@ async function handleLogout() {
       <!-- Decorative golden top bar -->
       <div class="h-0.5 w-full bg-gradient-to-r from-accent/0 via-accent to-accent/0" />
 
-      <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <RouterLink to="/" class="font-display font-bold text-xl no-underline">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+        <RouterLink to="/" class="font-display font-bold text-lg sm:text-xl no-underline shrink-0">
           <span class="text-foreground">Web </span><span class="text-accent">Clipper</span>
         </RouterLink>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 sm:gap-4">
           <RouterLink
             to="/articles/add"
-            class="btn-primary no-underline"
+            class="btn-primary no-underline whitespace-nowrap text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5"
           >
             記事を追加
           </RouterLink>
 
-          <div class="flex items-center gap-3">
-            <span class="text-muted text-sm font-body">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <span class="text-muted text-sm font-body hidden sm:inline truncate max-w-32">
               {{ auth.currentUser.value?.username }}
             </span>
             <button
-              class="btn-ghost"
+              class="btn-ghost whitespace-nowrap text-xs sm:text-sm px-2.5 sm:px-4"
               @click="handleLogout"
             >
               ログアウト
@@ -55,7 +55,7 @@ async function handleLogout() {
       </div>
     </header>
 
-    <main :class="auth.isAuthenticated.value ? 'max-w-5xl mx-auto px-6 py-8' : ''">
+    <main :class="auth.isAuthenticated.value ? 'max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8' : ''">
       <Transition name="page" mode="out-in">
         <RouterView />
       </Transition>
