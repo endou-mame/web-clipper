@@ -209,13 +209,16 @@ onMounted(() => {
 
     <!-- Loading skeleton -->
     <div v-if="isLoading" class="space-y-4">
-      <div v-for="n in 3" :key="n" class="card-base p-5 space-y-3">
-        <div class="skeleton h-5 w-3/4 rounded" />
-        <div class="skeleton h-3 w-1/3 rounded" />
-        <div class="flex gap-2 mt-3">
-          <div class="skeleton h-5 w-16 rounded-full" />
-          <div class="skeleton h-5 w-12 rounded-full" />
-          <div class="skeleton h-5 w-20 rounded-full ml-auto" />
+      <div v-for="n in 3" :key="n" class="card-base overflow-hidden">
+        <div class="skeleton h-44 w-full rounded-none" />
+        <div class="p-5 space-y-3">
+          <div class="skeleton h-5 w-3/4 rounded" />
+          <div class="skeleton h-3 w-1/3 rounded" />
+          <div class="flex gap-2 mt-3">
+            <div class="skeleton h-5 w-16 rounded-full" />
+            <div class="skeleton h-5 w-12 rounded-full" />
+            <div class="skeleton h-5 w-20 rounded-full ml-auto" />
+          </div>
         </div>
       </div>
     </div>
@@ -230,71 +233,75 @@ onMounted(() => {
     </div>
 
     <!-- Article cards -->
-    <div v-else class="space-y-3">
-      <div
+    <div v-else class="space-y-4">
+      <RouterLink
         v-for="article in articles"
         :key="article.id"
-        class="card-hover p-5 border-l-2 border-l-transparent hover:border-l-accent transition-all duration-200"
+        :to="`/articles/${article.id}`"
+        class="block card-hover overflow-hidden border-l-2 border-l-transparent hover:border-l-accent transition-all duration-200 no-underline"
       >
-        <div class="flex items-start justify-between gap-3">
-          <div class="min-w-0 flex-1">
-            <!-- Title -->
-            <RouterLink
-              :to="`/articles/${article.id}`"
-              class="text-foreground font-semibold text-base font-body no-underline hover:text-accent transition-colors duration-200 line-clamp-2"
-            >
-              {{ article.title }}
-            </RouterLink>
+        <!-- OG Image -->
+        <img
+          v-if="article.ogImageUrl"
+          :src="article.ogImageUrl"
+          :alt="article.title"
+          class="w-full h-44 object-cover"
+          loading="lazy"
+        />
 
-            <!-- Domain URL -->
-            <a
-              :href="article.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="mt-1 text-xs text-muted no-underline hover:text-info block truncate transition-colors duration-200"
-            >
-              {{ extractDomain(article.url) }}
-            </a>
+        <div class="p-5">
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0 flex-1">
+              <!-- Title -->
+              <h3 class="text-foreground font-semibold text-base font-body line-clamp-2">
+                {{ article.title }}
+              </h3>
+
+              <!-- Domain URL -->
+              <span class="mt-1 text-xs text-muted block truncate">
+                {{ extractDomain(article.url) }}
+              </span>
+            </div>
+
+            <!-- Read/unread indicator -->
+            <span class="flex-shrink-0 mt-1.5" :title="article.isRead ? '既読' : '未読'">
+              <span
+                v-if="article.isRead"
+                class="inline-block w-2.5 h-2.5 rounded-full bg-muted/30"
+              />
+              <span
+                v-else
+                class="inline-block w-2.5 h-2.5 rounded-full bg-accent shadow-sm shadow-accent/50"
+              />
+            </span>
           </div>
 
-          <!-- Read/unread indicator -->
-          <span class="flex-shrink-0 mt-1.5" :title="article.isRead ? '既読' : '未読'">
+          <!-- Meta -->
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <!-- Source badge -->
             <span
-              v-if="article.isRead"
-              class="inline-block w-2.5 h-2.5 rounded-full bg-muted/30"
-            />
+              class="badge-base px-2 py-0.5 text-xs font-medium rounded-full"
+              :class="sourceBadgeStyles[article.source]"
+            >
+              {{ sourceLabels[article.source] }}
+            </span>
+
+            <!-- Tags -->
             <span
-              v-else
-              class="inline-block w-2.5 h-2.5 rounded-full bg-accent shadow-sm shadow-accent/50"
-            />
-          </span>
+              v-for="tag in article.tags"
+              :key="tag"
+              class="bg-surface-2 text-muted text-xs rounded-full px-2.5 py-0.5"
+            >
+              {{ tag }}
+            </span>
+
+            <!-- Date -->
+            <span class="text-muted/70 text-xs ml-auto font-body">
+              {{ formatDate(article.createdAt) }}
+            </span>
+          </div>
         </div>
-
-        <!-- Meta -->
-        <div class="mt-3 flex flex-wrap items-center gap-2">
-          <!-- Source badge -->
-          <span
-            class="badge-base px-2 py-0.5 text-xs font-medium rounded-full"
-            :class="sourceBadgeStyles[article.source]"
-          >
-            {{ sourceLabels[article.source] }}
-          </span>
-
-          <!-- Tags -->
-          <span
-            v-for="tag in article.tags"
-            :key="tag"
-            class="bg-surface-2 text-muted text-xs rounded-full px-2.5 py-0.5"
-          >
-            {{ tag }}
-          </span>
-
-          <!-- Date -->
-          <span class="text-muted/70 text-xs ml-auto font-body">
-            {{ formatDate(article.createdAt) }}
-          </span>
-        </div>
-      </div>
+      </RouterLink>
     </div>
 
     <!-- Load more -->
