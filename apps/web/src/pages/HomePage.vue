@@ -210,7 +210,7 @@ onMounted(() => {
     <!-- Loading skeleton -->
     <div v-if="isLoading" class="space-y-4">
       <div v-for="n in 3" :key="n" class="card-base overflow-hidden">
-        <div class="skeleton h-44 w-full rounded-none" />
+        <div class="skeleton w-full aspect-video rounded-none" />
         <div class="p-5 space-y-3">
           <div class="skeleton h-5 w-3/4 rounded" />
           <div class="skeleton h-3 w-1/3 rounded" />
@@ -238,14 +238,14 @@ onMounted(() => {
         v-for="article in articles"
         :key="article.id"
         :to="`/articles/${article.id}`"
-        class="block card-hover overflow-hidden border-l-2 border-l-transparent hover:border-l-accent transition-all duration-200 no-underline"
+        class="block card-hover overflow-hidden no-underline"
       >
         <!-- OG Image -->
         <img
           v-if="article.ogImageUrl"
           :src="article.ogImageUrl"
           :alt="article.title"
-          class="w-full h-44 object-cover"
+          class="w-full aspect-video object-contain bg-surface-2"
           loading="lazy"
         />
 

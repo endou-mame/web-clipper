@@ -35,7 +35,7 @@ export default defineConfig({
     "card-base":
       "rounded-xl border border-border bg-surface-1 transition-all duration-300",
     "card-hover":
-      "rounded-xl border border-border bg-surface-1 transition-all duration-300 hover:border-accent/30 hover:shadow-[0_0_30px_rgba(255,202,88,0.06)]",
+      "rounded-xl border border-border bg-surface-1 transition-all duration-300 ease-out hover:border-accent/50 hover:shadow-[0_2px_24px_rgba(255,202,88,0.12),0_0_0_1px_rgba(255,202,88,0.15)] hover:-translate-y-0.5",
     "badge-base":
       "inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full font-body",
     "section-title":
