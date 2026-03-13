@@ -11,7 +11,10 @@ async function handleLogout() {
 
 <template>
   <!-- Loading state -->
-  <div v-if="auth.isLoading.value" class="min-h-screen bg-surface-0 flex items-center justify-center">
+  <div
+    v-if="auth.isLoading.value"
+    class="min-h-screen bg-surface-0 flex items-center justify-center"
+  >
     <div class="flex flex-col items-center gap-3">
       <div class="h-2.5 w-2.5 rounded-full bg-accent animate-pulse" />
       <span class="text-muted text-sm font-body">読み込み中...</span>
@@ -27,7 +30,9 @@ async function handleLogout() {
       <!-- Decorative golden top bar -->
       <div class="h-0.5 w-full bg-gradient-to-r from-accent/0 via-accent to-accent/0" />
 
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+      <div
+        class="max-w-5xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3"
+      >
         <RouterLink to="/" class="font-display font-bold text-lg sm:text-xl no-underline shrink-0">
           <span class="text-foreground">Web </span><span class="text-accent">Clipper</span>
         </RouterLink>
@@ -66,7 +71,9 @@ async function handleLogout() {
 <style scoped>
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .page-enter-from {

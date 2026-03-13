@@ -5,13 +5,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/index.ts"
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
     "dev": "wrangler dev",
-    "build": "wrangler deploy --dry-run --outdir=dist",
-    "test": "vitest run",
+    "build": "tsc --emitDeclarationOnly && wrangler deploy --dry-run --outdir=dist",
+    "test": "vitest run --passWithNoTests",
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

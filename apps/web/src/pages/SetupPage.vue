@@ -47,9 +47,13 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-surface-0 flex items-center justify-center px-4 relative overflow-hidden">
+  <div
+    class="min-h-screen bg-surface-0 flex items-center justify-center px-4 relative overflow-hidden"
+  >
     <!-- Decorative background orb -->
-    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
+    <div
+      class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none"
+    />
 
     <div class="w-full max-w-sm relative z-10">
       <!-- Gradient top border -->
@@ -107,7 +111,10 @@ async function handleSubmit() {
 
           <!-- Password confirmation -->
           <div>
-            <label for="password-confirm" class="mb-1 block text-sm font-medium text-muted font-body">
+            <label
+              for="password-confirm"
+              class="mb-1 block text-sm font-medium text-muted font-body"
+            >
               パスワード（確認）
             </label>
             <input
@@ -120,17 +127,11 @@ async function handleSubmit() {
               class="input-base w-full"
               :class="{ 'border-error': passwordMismatch }"
             />
-            <p v-if="passwordMismatch" class="mt-1 text-sm text-error">
-              パスワードが一致しません
-            </p>
+            <p v-if="passwordMismatch" class="mt-1 text-sm text-error">パスワードが一致しません</p>
           </div>
 
           <!-- Submit button -->
-          <button
-            type="submit"
-            :disabled="!isFormValid || isSubmitting"
-            class="btn-primary w-full"
-          >
+          <button type="submit" :disabled="!isFormValid || isSubmitting" class="btn-primary w-full">
             <span v-if="isSubmitting" class="inline-flex items-center gap-2">
               <svg class="h-4 w-4 animate-spin text-surface-0" viewBox="0 0 24 24" fill="none">
                 <circle

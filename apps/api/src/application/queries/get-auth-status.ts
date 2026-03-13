@@ -11,7 +11,11 @@ type GetAuthStatusDeps = {
 
 type AuthStatusResult = {
   readonly authenticated: boolean;
-  readonly user: { readonly id: string; readonly username: string; readonly githubLinked: boolean } | null;
+  readonly user: {
+    readonly id: string;
+    readonly username: string;
+    readonly githubLinked: boolean;
+  } | null;
   readonly needsSetup: boolean;
 };
 

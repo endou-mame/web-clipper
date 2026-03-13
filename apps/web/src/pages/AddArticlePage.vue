@@ -158,11 +158,7 @@ async function handleSubmit() {
             class="bg-accent/15 text-accent text-sm rounded-full px-3 py-1 inline-flex items-center gap-1"
           >
             {{ tag }}
-            <button
-              type="button"
-              class="text-accent/60 hover:text-accent"
-              @click="removeTag(tag)"
-            >
+            <button type="button" class="text-accent/60 hover:text-accent" @click="removeTag(tag)">
               &times;
             </button>
           </span>
@@ -213,11 +209,7 @@ async function handleSubmit() {
 
       <!-- Submit button -->
       <div>
-        <button
-          type="submit"
-          :disabled="!isFormValid || isSubmitting"
-          class="btn-primary w-full"
-        >
+        <button type="submit" :disabled="!isFormValid || isSubmitting" class="btn-primary w-full">
           <span v-if="isSubmitting" class="inline-flex items-center gap-2">
             <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
               <circle

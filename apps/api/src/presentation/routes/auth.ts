@@ -280,10 +280,7 @@ export const authRoutes = new OpenAPIHono<AppEnv>()
     }
 
     // Clear state cookie
-    c.header(
-      "Set-Cookie",
-      "oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0",
-    );
+    c.header("Set-Cookie", "oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0");
 
     // Exchange code for access token
     const tokenRes = await fetch("https://github.com/login/oauth/access_token", {

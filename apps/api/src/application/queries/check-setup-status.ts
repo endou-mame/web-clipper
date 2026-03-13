@@ -11,8 +11,7 @@ type SetupStatusResult = {
 };
 
 export const checkSetupStatus =
-  (deps: CheckSetupStatusDeps) =>
-  (): ResultAsync<SetupStatusResult, DomainError> =>
+  (deps: CheckSetupStatusDeps) => (): ResultAsync<SetupStatusResult, DomainError> =>
     deps.userRepo.count().map((count) => ({
       needsSetup: count === 0,
     }));

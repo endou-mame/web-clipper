@@ -22,7 +22,12 @@ const deriveKey = async (password: string, salt: Uint8Array): Promise<ArrayBuffe
     ["deriveBits"],
   );
   return crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: salt.buffer as ArrayBuffer, iterations: ITERATIONS, hash: HASH_ALGORITHM },
+    {
+      name: "PBKDF2",
+      salt: salt.buffer as ArrayBuffer,
+      iterations: ITERATIONS,
+      hash: HASH_ALGORITHM,
+    },
     keyMaterial,
     KEY_LENGTH,
   );

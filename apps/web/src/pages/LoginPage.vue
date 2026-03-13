@@ -33,9 +33,13 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-surface-0 flex items-center justify-center px-4 relative overflow-hidden">
+  <div
+    class="min-h-screen bg-surface-0 flex items-center justify-center px-4 relative overflow-hidden"
+  >
     <!-- Decorative background orb -->
-    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
+    <div
+      class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none"
+    />
 
     <div class="w-full max-w-sm relative z-10">
       <!-- Gradient top border -->
@@ -121,13 +125,7 @@ async function handleSubmit() {
 
         <!-- GitHub OAuth (future) -->
         <div class="mt-6 border-t border-border pt-6">
-          <button
-            type="button"
-            disabled
-            class="btn-ghost w-full"
-          >
-            GitHubでログイン
-          </button>
+          <button type="button" disabled class="btn-ghost w-full">GitHubでログイン</button>
           <p class="mt-2 text-center text-xs text-muted/60">準備中</p>
         </div>
       </div>

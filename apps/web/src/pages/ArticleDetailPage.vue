@@ -228,9 +228,7 @@ onMounted(() => {
     <!-- エラー -->
     <div v-else-if="error" class="py-20 text-center">
       <div class="text-error text-base font-body mb-4">{{ error }}</div>
-      <button class="btn-ghost" @click="router.push('/')">
-        一覧に戻る
-      </button>
+      <button class="btn-ghost" @click="router.push('/')">一覧に戻る</button>
     </div>
 
     <!-- 記事詳細 -->
@@ -240,7 +238,16 @@ onMounted(() => {
         class="mb-6 text-sm text-muted hover:text-foreground transition-colors duration-200 font-body inline-flex items-center gap-1.5"
         @click="router.push('/')"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M19 12H5" />
           <path d="M12 19l-7-7 7-7" />
         </svg>
@@ -260,19 +267,12 @@ onMounted(() => {
         <div class="p-6">
           <!-- ソースバッジ + 既読状態 -->
           <div class="flex items-center gap-2 mb-4">
-            <span
-              class="badge-base rounded-full"
-              :class="sourceColors[article.source]"
-            >
+            <span class="badge-base rounded-full" :class="sourceColors[article.source]">
               {{ article.source }}
             </span>
             <span
               class="badge-base rounded-full"
-              :class="
-                article.isRead
-                  ? 'bg-success/15 text-success'
-                  : 'bg-accent/15 text-accent'
-              "
+              :class="article.isRead ? 'bg-success/15 text-success' : 'bg-accent/15 text-accent'"
             >
               {{ article.isRead ? "既読" : "未読" }}
             </span>
@@ -291,7 +291,17 @@ onMounted(() => {
             class="mt-3 inline-flex items-center gap-1.5 text-sm text-info break-all hover:underline font-body"
           >
             {{ article.url }}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="flex-shrink-0"
+            >
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
               <polyline points="15 3 21 3 21 9" />
               <line x1="10" y1="14" x2="21" y2="3" />
@@ -299,12 +309,17 @@ onMounted(() => {
           </a>
 
           <!-- 説明文 -->
-          <p v-if="article.description" class="mt-5 text-sm leading-relaxed text-foreground/70 font-body">
+          <p
+            v-if="article.description"
+            class="mt-5 text-sm leading-relaxed text-foreground/70 font-body"
+          >
             {{ article.description }}
           </p>
 
           <!-- 日時 -->
-          <div class="mt-5 pt-4 border-t border-border/50 flex gap-6 text-xs text-muted/60 font-body">
+          <div
+            class="mt-5 pt-4 border-t border-border/50 flex gap-6 text-xs text-muted/60 font-body"
+          >
             <span>作成: {{ formatDate(article.createdAt) }}</span>
             <span>更新: {{ formatDate(article.updatedAt) }}</span>
           </div>
@@ -345,7 +360,10 @@ onMounted(() => {
 
         <!-- 表示モード -->
         <div v-if="!isEditingMemo">
-          <p v-if="article.memo" class="whitespace-pre-wrap text-sm text-foreground/80 font-body leading-relaxed">
+          <p
+            v-if="article.memo"
+            class="whitespace-pre-wrap text-sm text-foreground/80 font-body leading-relaxed"
+          >
             {{ article.memo }}
           </p>
           <p v-else class="text-sm text-muted/50 font-body">メモはありません</p>
@@ -360,18 +378,10 @@ onMounted(() => {
             placeholder="メモを入力..."
           />
           <div class="mt-3 flex gap-2">
-            <button
-              :disabled="savingMemo"
-              class="btn-primary text-sm px-4 py-2"
-              @click="saveMemo"
-            >
+            <button :disabled="savingMemo" class="btn-primary text-sm px-4 py-2" @click="saveMemo">
               {{ savingMemo ? "保存中..." : "保存" }}
             </button>
-            <button
-              :disabled="savingMemo"
-              class="btn-ghost text-sm"
-              @click="cancelEditMemo"
-            >
+            <button :disabled="savingMemo" class="btn-ghost text-sm" @click="cancelEditMemo">
               キャンセル
             </button>
           </div>
