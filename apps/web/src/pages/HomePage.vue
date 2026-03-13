@@ -245,7 +245,7 @@ onMounted(() => {
           v-if="article.ogImageUrl"
           :src="article.ogImageUrl"
           :alt="article.title"
-          class="h-auto w-full max-h-72 object-cover"
+          class="w-full max-h-72 object-contain bg-black/20"
           loading="lazy"
         />
 
