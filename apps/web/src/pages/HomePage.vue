@@ -245,7 +245,9 @@ onMounted(() => {
           :src="article.ogImageUrl"
           :alt="article.title"
           class="w-full max-h-72 object-contain bg-black/20"
-          :style="article.id === transitioningArticleId ? { viewTransitionName: 'article-image' } : {}"
+          :style="
+            article.id === transitioningArticleId ? { viewTransitionName: 'article-image' } : {}
+          "
           loading="lazy"
         />
 
@@ -255,7 +257,11 @@ onMounted(() => {
               <!-- Title -->
               <h3
                 class="text-foreground font-semibold text-base font-body line-clamp-2"
-                :style="article.id === transitioningArticleId ? { viewTransitionName: 'article-title' } : {}"
+                :style="
+                  article.id === transitioningArticleId
+                    ? { viewTransitionName: 'article-title' }
+                    : {}
+                "
               >
                 {{ article.title }}
               </h3>
