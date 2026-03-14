@@ -31,7 +31,7 @@ async function handleLogout() {
       <div class="h-0.5 w-full bg-gradient-to-r from-accent/0 via-accent to-accent/0" />
 
       <div
-        class="max-w-5xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3"
+        class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3"
       >
         <RouterLink to="/" class="font-display font-bold text-lg sm:text-xl no-underline shrink-0">
           <span class="text-foreground">Web </span><span class="text-accent">Clipper</span>
@@ -60,7 +60,7 @@ async function handleLogout() {
       </div>
     </header>
 
-    <main :class="auth.isAuthenticated.value ? 'max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8' : ''">
+    <main :class="auth.isAuthenticated.value ? 'max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8' : ''">
       <Transition name="page" mode="out-in">
         <RouterView />
       </Transition>
