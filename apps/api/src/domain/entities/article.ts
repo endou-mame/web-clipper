@@ -17,21 +17,7 @@ export type Article = {
   readonly updatedAt: Date;
 };
 
-type CreateParams = {
-  readonly id: ArticleId;
-  readonly url: ArticleUrl;
-  readonly title: string;
-  readonly description: string | null;
-  readonly source: Source;
-  readonly ogImageUrl: string | null;
-  readonly memo: string | null;
-  readonly isRead: boolean;
-  readonly tags: readonly TagName[];
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
-};
-
-const create = (params: CreateParams): Article => ({
+const create = (params: Article): Article => ({
   ...params,
   tags: [...params.tags],
 });

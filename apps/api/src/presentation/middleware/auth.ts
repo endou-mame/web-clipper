@@ -28,6 +28,5 @@ export const sessionAuth = async (c: Context<AppEnv>, next: Next) => {
     return c.json({ error: "UNAUTHORIZED", message: "Session expired" }, 401);
   }
 
-  c.set("currentUserId", session.userId as string);
   await next();
 };

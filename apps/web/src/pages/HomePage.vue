@@ -2,6 +2,7 @@
 import { ref, computed, watch, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import { useApi } from "@/composables/useApi";
+import type { Article, Tag } from "@/types/article";
 
 const api = useApi();
 
@@ -10,27 +11,6 @@ const searchQuery = ref("");
 const debouncedQuery = ref("");
 const selectedSource = ref<string>("");
 const selectedTagId = ref<string>("");
-
-interface Article {
-  id: string;
-  url: string;
-  title: string;
-  description: string | null;
-  source: "twitter" | "qiita" | "zenn" | "hatena" | "other";
-  ogImageUrl: string | null;
-  memo: string | null;
-  isRead: boolean;
-  tags: string[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Tag {
-  id: string;
-  name: string;
-  articleCount: number;
-  createdAt: string;
-}
 
 const articles = ref<Article[]>([]);
 const nextCursor = ref<string | null>(null);

@@ -1,10 +1,9 @@
-import { ok, err, type Result, type ResultAsync } from "neverthrow";
+import { ok, err, type ResultAsync } from "neverthrow";
 import type { ArticleRepository } from "../../domain/ports/mod.js";
 import { ArticleIdVO } from "../../domain/values/article-id.js";
 import { TagNameVO } from "../../domain/values/tag-name.js";
 import { ArticleEntity, type Article } from "../../domain/entities/mod.js";
 import type { DomainError } from "../../domain/errors.js";
-import type { TagName } from "../../domain/values/mod.js";
 
 type UpdateArticleDeps = {
   readonly articleRepo: ArticleRepository;
@@ -15,16 +14,6 @@ type UpdateArticleInput = {
   readonly memo?: string | null;
   readonly tags?: readonly string[];
   readonly isRead?: boolean;
-};
-
-const validateTags = (tagInputs: readonly string[]): Result<readonly TagName[], DomainError> => {
-  const validated: TagName[] = [];
-  for (const input of tagInputs) {
-    const result = TagNameVO.create(input);
-    if (result.isErr()) return err(result.error);
-    validated.push(result.value);
-  }
-  return ok(validated);
 };
 
 export const updateArticle =
@@ -50,7 +39,7 @@ export const updateArticle =
             : ArticleEntity.markAsUnread(updated);
         }
         if (input.tags !== undefined) {
-          const tagsResult = validateTags(input.tags);
+          const tagsResult = TagNameVO.validateMany(input.tags);
           if (tagsResult.isErr()) return err(tagsResult.error);
           updated = ArticleEntity.updateTags(updated, tagsResult.value);
         }

@@ -18,7 +18,6 @@ export default defineConfig({
       success: "#bcdf59",
       info: "#49cae4",
       purple: "#a093e2",
-      cyan: "#aee8f4",
     },
     fontFamily: {
       display: "'Outfit', sans-serif",

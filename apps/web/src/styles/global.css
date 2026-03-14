@@ -37,24 +37,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Smooth transitions for route changes */
-.page-enter-active,
-.page-leave-active {
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-
-.page-enter-from {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.page-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
 /* Loading skeleton shimmer */
 @keyframes shimmer {
   0% {
@@ -70,15 +52,4 @@ body {
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;
-}
-
-/* Glow pulse for active elements */
-@keyframes glow-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 12px rgba(255, 202, 88, 0.15);
-  }
-  50% {
-    box-shadow: 0 0 24px rgba(255, 202, 88, 0.3);
-  }
 }

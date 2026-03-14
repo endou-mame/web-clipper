@@ -16,4 +16,14 @@ const create = (input: string): Result<TagName, DomainError> => {
   return ok(parsed.data);
 };
 
-export const TagNameVO = { create, schema: TagNameSchema } as const;
+const validateMany = (inputs: readonly string[]): Result<readonly TagName[], DomainError> => {
+  const validated: TagName[] = [];
+  for (const input of inputs) {
+    const result = create(input);
+    if (result.isErr()) return err(result.error);
+    validated.push(result.value);
+  }
+  return ok(validated);
+};
+
+export const TagNameVO = { create, validateMany, schema: TagNameSchema } as const;

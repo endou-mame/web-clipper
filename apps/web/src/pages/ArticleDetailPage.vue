@@ -2,26 +2,13 @@
 import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useApi } from "@/composables/useApi";
+import type { Article } from "@/types/article";
 
 const route = useRoute();
 const router = useRouter();
 const api = useApi();
 
 const articleId = computed(() => route.params.id as string);
-
-interface Article {
-  id: string;
-  url: string;
-  title: string;
-  description: string | null;
-  source: "twitter" | "qiita" | "zenn" | "hatena" | "other";
-  ogImageUrl: string | null;
-  memo: string | null;
-  isRead: boolean;
-  tags: string[];
-  createdAt: string;
-  updatedAt: string;
-}
 
 const article = ref<Article | null>(null);
 const loading = ref(true);

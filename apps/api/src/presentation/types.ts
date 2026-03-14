@@ -27,6 +27,5 @@ export type AppEnv = {
   Bindings: Bindings;
   Variables: {
     deps: Deps;
-    currentUserId: string;
   };
 };
