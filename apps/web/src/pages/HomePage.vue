@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted, onActivated, onDeactivated, nextTick } from "vue";
 import { RouterLink } from "vue-router";
 import { useApi } from "@/composables/useApi";
 import { useViewTransition } from "@/composables/useViewTransition";
@@ -135,6 +135,19 @@ function formatDate(dateStr: string): string {
 }
 
 const isEmpty = computed(() => !isLoading.value && articles.value.length === 0);
+
+// --- Scroll position ---
+let savedScrollY = 0;
+
+onDeactivated(() => {
+  savedScrollY = window.scrollY;
+});
+
+onActivated(() => {
+  nextTick(() => {
+    window.scrollTo(0, savedScrollY);
+  });
+});
 
 // --- Init ---
 onMounted(() => {

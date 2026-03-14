@@ -3,6 +3,12 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(),
+  scrollBehavior(to, from) {
+    if (to.path === "/" && from.path.startsWith("/articles/")) {
+      return false;
+    }
+    return { top: 0 };
+  },
   routes: [
     {
       path: "/login",
