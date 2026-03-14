@@ -61,7 +61,11 @@ async function handleLogout() {
     </header>
 
     <main :class="auth.isAuthenticated.value ? 'max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8' : ''">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <KeepAlive include="HomePage">
+          <component :is="Component" />
+        </KeepAlive>
+      </RouterView>
     </main>
   </div>
 </template>

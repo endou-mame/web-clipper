@@ -68,11 +68,16 @@ router.beforeResolve(async () => {
   if (!document.startViewTransition) return;
 
   return new Promise<void>((resolve) => {
-    document.startViewTransition(() => {
+    const transition = document.startViewTransition(() => {
       resolve();
       return new Promise<void>((r) => {
         resolveTransition = r;
       });
+    });
+
+    transition.finished.then(async () => {
+      const { useViewTransition } = await import("@/composables/useViewTransition");
+      useViewTransition().clearTransition();
     });
   });
 });

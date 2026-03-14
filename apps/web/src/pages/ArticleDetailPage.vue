@@ -8,7 +8,7 @@ import type { Article } from "@/types/article";
 const route = useRoute();
 const router = useRouter();
 const api = useApi();
-const { transitionArticle, clearTransition } = useViewTransition();
+const { transitionArticle, startTransition, clearTransition } = useViewTransition();
 
 const articleId = computed(() => route.params.id as string);
 
@@ -169,6 +169,18 @@ async function addTag() {
   }
 }
 
+function goBack() {
+  if (article.value) {
+    startTransition({
+      id: article.value.id,
+      title: article.value.title,
+      ogImageUrl: article.value.ogImageUrl,
+      source: article.value.source,
+    });
+  }
+  router.push("/");
+}
+
 async function deleteArticle() {
   if (!article.value || deleting.value) return;
   if (!window.confirm("この記事を削除しますか？")) return;
@@ -186,7 +198,7 @@ async function deleteArticle() {
 }
 
 onMounted(() => {
-  fetchArticle().then(() => clearTransition());
+  fetchArticle();
   fetchAllTags();
 });
 </script>
@@ -248,7 +260,7 @@ onMounted(() => {
     <!-- エラー -->
     <div v-else-if="error" class="py-20 text-center">
       <div class="text-error text-base font-body mb-4">{{ error }}</div>
-      <button class="btn-ghost" @click="router.push('/')">一覧に戻る</button>
+      <button class="btn-ghost" @click="goBack">一覧に戻る</button>
     </div>
 
     <!-- 記事詳細 -->
@@ -256,7 +268,7 @@ onMounted(() => {
       <!-- 戻るリンク -->
       <button
         class="mb-6 text-sm text-muted hover:text-foreground transition-colors duration-200 font-body inline-flex items-center gap-1.5"
-        @click="router.push('/')"
+        @click="goBack"
       >
         <svg
           width="16"

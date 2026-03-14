@@ -5,6 +5,8 @@ import { useApi } from "@/composables/useApi";
 import { useViewTransition } from "@/composables/useViewTransition";
 import type { Article, Tag } from "@/types/article";
 
+defineOptions({ name: "HomePage" });
+
 const api = useApi();
 const { transitioningArticleId, startTransition } = useViewTransition();
 
